@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sentence Matching Exercise</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            margin: 0 0 10px;
+            font-size: 28px;
+            color: #1d3557;
+        }
+
+        .instructions {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th,
+        td {
+            border: 1px solid #cfd6df;
+            padding: 14px;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #1d3557;
+            color: white;
+            font-size: 17px;
+            text-align: center;
+        }
+
+        td:first-child {
+            width: 36%;
+            font-weight: 600;
+            background: #f8fafc;
+        }
+
+        td:nth-child(2),
+        td:nth-child(3) {
+            width: 32%;
+        }
+
+        select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #b9c3d0;
+            border-radius: 7px;
+            background: white;
+            font-size: 15px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #457b9d;
+            box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.15);
+        }
+
+        .correct {
+            border: 2px solid #2a9d8f !important;
+            background: #eaf8f5;
+        }
+
+        .incorrect {
+            border: 2px solid #e63946 !important;
+            background: #fff0f1;
+        }
+
+        .answer-box {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 10px;
+            background: #fff8e6;
+            border: 1px solid #f0c36d;
+        }
+
+        .answer-box h3 {
+            margin-top: 0;
+            color: #8a5a00;
+        }
+
+        .correct-answer {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #2a9d8f;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 12px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            opacity: 0.92;
+        }
+
+        .submit-btn {
+            background: #1d3557;
+            color: white;
+        }
+
+        .reset-btn {
+            background: #e9ecef;
+            color: #333;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #eef6ff;
+            border: 1px solid #b8d5f5;
+        }
+
+        .score {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1d3557;
+        }
+
+        .message {
+            margin-top: 8px;
+            font-size: 17px;
+        }
+
+        .status {
+            display: block;
+            margin-top: 7px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status.correct-text {
+            color: #16806f;
+        }
+
+        .status.incorrect-text {
+            color: #d62839;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .instructions {
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+
+            select {
+                font-size: 14px;
+                padding: 9px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Sentence Matching Exercise</h1>
+
+    <p class="instructions">
+        Match the parts of the sentences in Columns B and C with Column A.
+        Select the correct answers and click <strong>Submit</strong>.
+    </p>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Column A</th>
+                    <th>Column B</th>
+                    <th>Column C</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- Row 1 -->
+                <tr data-row="1">
+                    <td>(a) Punctuality is a virtue</td>
+
+                    <td>
+                        <select class="column-b">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) person is</option>
+                            <option value="ii">(ii) which make us</option>
+                            <option value="iii">(iii) punctual, we shall</option>
+                            <option value="iv">(iv) is punctual never</option>
+                            <option value="v">(v) us to become</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="column-c">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) accurate in timing</option>
+                            <option value="ii">(ii) loved by all</option>
+                            <option value="iii">(iii) surely succeed in life</option>
+                            <option value="iv">(iv) successful in future</option>
+                            <option value="v">(v) gets late in his work</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr data-row="2">
+                    <td>(b) It helps</td>
+
+                    <td>
+                        <select class="column-b">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) person is</option>
+                            <option value="ii">(ii) which make us</option>
+                            <option value="iii">(iii) punctual, we shall</option>
+                            <option value="iv">(iv) is punctual never</option>
+                            <option value="v">(v) us to become</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="column-c">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) accurate in timing</option>
+                            <option value="ii">(ii) loved by all</option>
+                            <option value="iii">(iii) surely succeed in life</option>
+                            <option value="iv">(iv) successful in future</option>
+                            <option value="v">(v) gets late in his work</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr data-row="3">
+                    <td>(c) A punctual</td>
+
+                    <td>
+                        <select class="column-b">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) person is</option>
+                            <option value="ii">(ii) which make us</option>
+                            <option value="iii">(iii) punctual, we shall</option>
+                            <option value="iv">(iv) is punctual never</option>
+                            <option value="v">(v) us to become</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="column-c">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) accurate in timing</option>
+                            <option value="ii">(ii) loved by all</option>
+                            <option value="iii">(iii) surely succeed in life</option>
+                            <option value="iv">(iv) successful in future</option>
+                            <option value="v">(v) gets late in his work</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr data-row="4">
+                    <td>(d) He who</td>
+
+                    <td>
+                        <select class="column-b">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) person is</option>
+                            <option value="ii">(ii) which make us</option>
+                            <option value="iii">(iii) punctual, we shall</option>
+                            <option value="iv">(iv) is punctual never</option>
+                            <option value="v">(v) us to become</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="column-c">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) accurate in timing</option>
+                            <option value="ii">(ii) loved by all</option>
+                            <option value="iii">(iii) surely succeed in life</option>
+                            <option value="iv">(iv) successful in future</option>
+                            <option value="v">(v) gets late in his work</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Row 5 -->
+                <tr data-row="5">
+                    <td>(e) If we become</td>
+
+                    <td>
+                        <select class="column-b">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) person is</option>
+                            <option value="ii">(ii) which makes us</option>
+                            <option value="iii">(iii) punctual, we shall</option>
+                            <option value="iv">(iv) is punctual never</option>
+                            <option value="v">(v) us to become</option>
+                        </select>
+                    </td>
+
+                    <td>
+                        <select class="column-c">
+                            <option value="">-- Select --</option>
+                            <option value="i">(i) accurate in timing</option>
+                            <option value="ii">(ii) loved by all</option>
+                            <option value="iii">(iii) surely succeed in life</option>
+                            <option value="iv">(iv) successful in future</option>
+                            <option value="v">(v) gets late in his work</option>
+                        </select>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Result -->
+    <div id="result" class="result">
+        <div>Your Score</div>
+        <div id="score" class="score">0 / 5</div>
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Correct Answers -->
+    <div id="answerBox" class="answer-box">
+        <h3>Correct Answers</h3>
+        <div id="correctAnswers"></div>
+    </div>
+
+    <div class="buttons">
+        <button class="submit-btn" onclick="checkAnswers()">
+            Submit
+        </button>
+
+        <button class="reset-btn" onclick="resetQuiz()">
+            Reset
+        </button>
+    </div>
+
+</div>
+
+
+<script>
+    /*
+     * Correct answers
+     *
+     * Each row contains:
+     * b = correct Column B option
+     * c = correct Column C option
+     */
+    const correctAnswers = {
+        1: { b: "ii", c: "iv" },
+        2: { b: "v",  c: "ii" },
+        3: { b: "i",  c: "i" },
+        4: { b: "iv", c: "v" },
+        5: { b: "iii", c: "iii" }
+    };
+
+
+    function checkAnswers() {
+
+        const rows = document.querySelectorAll("tbody tr");
+
+        let score = 0;
+        let incorrectRows = [];
+
+        rows.forEach((row) => {
+
+            const rowNumber = row.dataset.row;
+
+            const columnB = row.querySelector(".column-b");
+            const columnC = row.querySelector(".column-c");
+
+            const selectedB = columnB.value;
+            const selectedC = columnC.value;
+
+            const correctB = correctAnswers[rowNumber].b;
+            const correctC = correctAnswers[rowNumber].c;
+
+            // Remove previous styles
+            columnB.classList.remove("correct", "incorrect");
+            columnC.classList.remove("correct", "incorrect");
+
+            // Check Column B
+            if (selectedB === correctB) {
+                columnB.classList.add("correct");
+            } else {
+                columnB.classList.add("incorrect");
+            }
+
+            // Check Column C
+            if (selectedC === correctC) {
+                columnC.classList.add("correct");
+            } else {
+                columnC.classList.add("incorrect");
+            }
+
+            // A row receives 1 mark only if BOTH answers are correct
+            if (selectedB === correctB && selectedC === correctC) {
+                score++;
+            } else {
+                incorrectRows.push(rowNumber);
+            }
+        });
+
+
+        // Display score
+        document.getElementById("result").style.display = "block";
+        document.getElementById("score").textContent = score + " / 5";
+
+
+        // Display message
+        const message = document.getElementById("message");
+
+        if (score === 5) {
+            message.textContent = "All answers are correct!";
+        } else if (score >= 3) {
+            message.textContent = "Good work! Check the incorrect answers below.";
+        } else {
+            message.textContent = "Please review the incorrect answers below.";
+        }
+
+
+        // Show correct answers for incorrect rows
+        const answerBox = document.getElementById("answerBox");
+        const correctAnswersDiv = document.getElementById("correctAnswers");
+
+        correctAnswersDiv.innerHTML = "";
+
+        if (incorrectRows.length > 0) {
+
+            answerBox.style.display = "block";
+
+            incorrectRows.forEach((rowNumber) => {
+
+                const row = document.querySelector(
+                    `tr[data-row="${rowNumber}"]`
+                );
+
+                const columnA = row.children[0].textContent.trim();
+
+                const correctBValue = correctAnswers[rowNumber].b;
+                const correctCValue = correctAnswers[rowNumber].c;
+
+                const bSelect = row.querySelector(".column-b");
+                const cSelect = row.querySelector(".column-c");
+
+                const correctBText =
+                    bSelect.options[
+                        bSelect.selectedIndex
+                    ].text;
+
+                // Find actual correct option text
+                const correctBOption =
+                    [...bSelect.options].find(
+                        option => option.value === correctBValue
+                    );
+
+                const correctCOption =
+                    [...cSelect.options].find(
+                        option => option.value === correctCValue
+                    );
+
+                const answer = document.createElement("div");
+
+                answer.className = "correct-answer";
+
+                answer.innerHTML = `
+                    <strong>${columnA}</strong><br>
+                    Column B: <strong>${correctBOption.text}</strong><br>
+                    Column C: <strong>${correctCOption.text}</strong>
+                `;
+
+                correctAnswersDiv.appendChild(answer);
+            });
+
+        } else {
+            answerBox.style.display = "none";
+        }
+
+        // Scroll to result
+        document.getElementById("result").scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
+
+
+    function resetQuiz() {
+
+        const selects = document.querySelectorAll("select");
+
+        selects.forEach(select => {
+            select.value = "";
+            select.classList.remove("correct", "incorrect");
+        });
+
+        document.getElementById("result").style.display = "none";
+        document.getElementById("answerBox").style.display = "none";
+
+        document.getElementById("score").textContent = "0 / 5";
+        document.getElementById("message").textContent = "";
+
+        document.getElementById("correctAnswers").innerHTML = "";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+</script>
+
+</body>
+</html>
